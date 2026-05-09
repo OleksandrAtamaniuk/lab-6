@@ -1,0 +1,58 @@
+#include <iostream>
+using namespace std;
+
+class A {
+public:
+    int a;
+};
+
+class B : public A {
+public:
+    int b;
+};
+
+class C : public A {
+public:
+    int c;
+};
+
+class D : public B, public C {
+public:
+    int d;
+};
+
+class A_v {
+public:
+    int a;
+};
+
+class B_v : virtual public A_v {
+public:
+    int b;
+};
+
+class C_v : virtual public A_v {
+public:
+    int c;
+};
+
+class D_v : public B_v, public C_v {
+public:
+    int d;
+};
+
+int main() {
+    cout << "=== WITHOUT VIRTUAL INHERITANCE ===\n";
+    cout << "Size of A: " << sizeof(A) << endl;
+    cout << "Size of B: " << sizeof(B) << endl;
+    cout << "Size of C: " << sizeof(C) << endl;
+    cout << "Size of D: " << sizeof(D) << endl;
+
+    cout << "\n=== WITH VIRTUAL INHERITANCE ===\n";
+    cout << "Size of A_v: " << sizeof(A_v) << endl;
+    cout << "Size of B_v: " << sizeof(B_v) << endl;
+    cout << "Size of C_v: " << sizeof(C_v) << endl;
+    cout << "Size of D_v: " << sizeof(D_v) << endl;
+
+    return 0;
+}
