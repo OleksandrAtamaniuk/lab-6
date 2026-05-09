@@ -1,0 +1,116 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Student {
+protected:
+    string name;
+    int age;
+    int course;
+
+public:
+    Student(string n = "невідомо", int a = 0, int c = 0) {
+        name = n;
+        age = a;
+        course = c;
+    }
+    Student(const Student& other) {
+        name = other.name;
+        age = other.age;
+        course = other.course;
+    }
+    virtual ~Student() {}
+
+    friend ostream& operator<<(ostream& out, const Student& s) {
+        out << "Ім'я: " << s.name << endl;
+        out << "Вік: " << s.age << endl;
+        out << "Курс: " << s.course << endl;
+        return out;
+    }
+
+    friend istream& operator>>(istream& in, Student& s) {
+        cout << "Ім'я: ";
+        getline(in, s.name);
+        cout << "Вік: ";
+        in >> s.age;
+        cout << "Курс: ";
+        in >> s.course;
+
+        in.ignore();
+        return in;
+    }
+};
+
+class Father {
+protected:
+    int children;
+    double salary;
+
+public:
+    Father(int ch = 0, double sal = 0) {
+        children = ch;
+        salary = sal;
+    }
+    Father(const Father& other) {
+        children = other.children;
+        salary = other.salary;
+    }
+
+    virtual ~Father() {}
+
+    friend ostream& operator<<(ostream& out, const Father& f) {
+        out << "Кількість дітей: " << f.children << endl;
+        out << "Зарплата: " << f.salary << endl;
+        return out;
+    }
+    friend istream& operator>>(istream& in, Father& f) {
+        cout << "Кількість дітей: ";
+        in >> f.children;
+        cout << "Зарплата: ";
+        in >> f.salary;
+
+        in.ignore();
+        return in;
+    }
+};
+class StudentFather : public Student, public Father {
+private:
+    string university;
+
+public:
+    StudentFather(string n = "невідомо", int a = 0, int c = 0,
+                  int ch = 0, double sal = 0, string u = "невідомо")
+        : Student(n, a, c), Father(ch, sal) {
+        university = u;
+    }
+    StudentFather(const StudentFather& other)
+        : Student(other), Father(other) {
+        university = other.university;
+    }
+    virtual ~StudentFather() {}
+    friend ostream& operator<<(ostream& out, const StudentFather& sf) {
+        out << (Student&)sf;  // дані студента
+        out << (Father&)sf;   // дані батька
+        out << "Університет: " << sf.university << endl;
+        return out;
+    }
+
+    friend istream& operator>>(istream& in, StudentFather& sf) {
+        in >> (Student&)sf;
+        in >> (Father&)sf;
+        cout << "Університет: ";
+        getline(in, sf.university);
+
+        return in;
+    }
+};
+
+int main() {
+
+    StudentFather obj;
+    cin >> obj;
+    cout << "\nІнформація про об'єкт:\n";
+    cout << obj;
+
+    return 0;
+}
