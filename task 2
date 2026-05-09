@@ -1,0 +1,83 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class Figure {
+public:
+    virtual double area() = 0; 
+};
+
+class Rectangle : public Figure {
+private:
+    double a, b;
+
+public:
+    Rectangle(double x, double y) {
+        a = x;
+        b = y;
+    }
+
+    double area() override {
+        return a * b;
+    }
+};
+
+class Circle : public Figure {
+private:
+    double r;
+
+public:
+    Circle(double radius) {
+        r = radius;
+    }
+
+    double area() override {
+        return M_PI * r * r;
+    }
+};
+class RightTriangle : public Figure {
+private:
+    double a, b;
+
+public:
+    RightTriangle(double x, double y) {
+        a = x;
+        b = y;
+    }
+    double area() override {
+        return 0.5 * a * b;
+    }
+};
+
+class Trapezoid : public Figure {
+private:
+    double a, b, h;
+public:
+    Trapezoid(double x, double y, double height) {
+        a = x;
+        b = y;
+        h = height;
+    }
+
+    double area() override {
+        return ((a + b) / 2) * h;
+    }
+};
+int main() {
+
+    Figure* figures[4]; 
+
+    figures[0] = new Rectangle(4, 5);
+    figures[1] = new Circle(3);
+    figures[2] = new RightTriangle(3, 4);
+    figures[3] = new Trapezoid(3, 5, 4);
+    cout << "Площі фігур:\n";
+    for (int i = 0; i < 4; i++) {
+        cout << figures[i]->area() << endl; 
+    }
+
+    for (int i = 0; i < 4; i++) {
+        delete figures[i];
+    }
+    return 0;
+}
